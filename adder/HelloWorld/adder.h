@@ -1,20 +1,16 @@
 #include <systemc.h>
 
-SC_MODULE(adder) {
-    sc_in<int> a, b;      // Input ports
-    sc_out<int> sum;      // Output port
-
-    SC_CTOR(adder) {
-        SC_METHOD(do_add);
+SC_MODULE(EightBitAdder) {
+    sc_in<sc_uint<8> > a, b;      // Input ports
+    sc_out<sc_uint<8>> sum;      // Output port
+    sc_out<bool> overFlow;
+    void somme() {
+        sum.write((a.read() + b.read()) & 255);
+        overFlow.write(((a.read() + b.read()) & 256) != 0);
+    }
+    SC_CTOR(EightBitAdder) {
+        SC_METHOD(somme);
         sensitive << a << b;
         dont_initialize();
-    }
-
-    void do_add() {
-        int result = a.read() + b.read();
-        sum.write(result);
-        cout << sc_time_stamp() << " | a = " << a.read()
-            << ", b = " << b.read()
-            << ", sum = " << result << endl;
     }
 };
