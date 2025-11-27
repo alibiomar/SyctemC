@@ -14,7 +14,7 @@ sc_in_clk clock;
     //SC_CTHREAD(do_test2, clock.pos());
     SC_THREAD(do_test2);
 	 sensitive << clock.pos();
-    dont_intialize();
+     dont_initialize();
 	
   }  
 
